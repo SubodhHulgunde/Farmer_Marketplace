@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Khet Bazaar — Farm Fresh Marketplace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo">
+      <span class="logo-icon">🌾</span>
+      <span class="logo-text">Khet <em>Bazaar</em></span>
+    </div>
+    <div class="nav-links">
+      <a href="#" class="nav-link active" data-page="home">Home</a>
+      <a href="#" class="nav-link" data-page="shop">Shop</a>
+      <a href="#" class="nav-link" data-page="farmers">Farmers</a>
+      <a href="#" class="nav-link" data-page="sell">Sell</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-cart" id="cartBtn">
+        🛒 <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="btn-login" id="loginBtn">Sign In</button>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGES -->
+<main id="appMain">
+
+  <!-- HOME PAGE -->
+  <section class="page active" id="page-home">
+    <div class="hero">
+      <div class="hero-bg">
+        <div class="hero-circle c1"></div>
+        <div class="hero-circle c2"></div>
+        <div class="hero-circle c3"></div>
+      </div>
+      <div class="hero-content">
+        <span class="hero-tag">Farm Fresh • Direct From Growers</span>
+        <h1 class="hero-title">From the <em>field</em><br/>to your <em>table</em></h1>
+        <p class="hero-subtitle">India's freshest marketplace connecting farmers directly with families. No middlemen, better prices, real food.</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="showPage('shop')">Shop Now →</button>
+          <button class="btn-ghost" onclick="showPage('farmers')">Meet Farmers</button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><strong>2,400+</strong><span>Farmers</span></div>
+          <div class="stat"><strong>18K+</strong><span>Families</span></div>
+          <div class="stat"><strong>48hr</strong><span>Delivery</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="product-float p1">🥕 Fresh Carrots</div>
+        <div class="product-float p2">🍅 Organic Tomatoes</div>
+        <div class="product-float p3">🥬 Farm Spinach</div>
+        <div class="hero-plate">
+          <div class="plate-ring"></div>
+          <div class="plate-emoji">🌽</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CATEGORIES -->
+    <div class="section">
+      <h2 class="section-title">Browse by <em>Category</em></h2>
+      <div class="categories">
+        <div class="cat-card" onclick="filterCategory('vegetables')">
+          <span class="cat-emoji">🥦</span>
+          <span>Vegetables</span>
+          <small>142 items</small>
+        </div>
+        <div class="cat-card" onclick="filterCategory('fruits')">
+          <span class="cat-emoji">🍎</span>
+          <span>Fruits</span>
+          <small>87 items</small>
+        </div>
+        <div class="cat-card" onclick="filterCategory('grains')">
+          <span class="cat-emoji">🌾</span>
+          <span>Grains & Pulses</span>
+          <small>63 items</small>
+        </div>
+        <div class="cat-card" onclick="filterCategory('dairy')">
+          <span class="cat-emoji">🥛</span>
+          <span>Dairy</span>
+          <small>34 items</small>
+        </div>
+        <div class="cat-card" onclick="filterCategory('spices')">
+          <span class="cat-emoji">🌶️</span>
+          <span>Spices & Herbs</span>
+          <small>91 items</small>
+        </div>
+        <div class="cat-card" onclick="filterCategory('honey')">
+          <span class="cat-emoji">🍯</span>
+          <span>Honey & More</span>
+          <small>28 items</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURED -->
+    <div class="section">
+      <div class="section-header">
+        <h2 class="section-title">Featured <em>Today</em></h2>
+        <button class="btn-link" onclick="showPage('shop')">View all →</button>
+      </div>
+      <div class="products-grid" id="featuredGrid"></div>
+    </div>
+  </section>
+
+  <!-- SHOP PAGE -->
+  <section class="page" id="page-shop">
+    <div class="shop-layout">
+      <aside class="shop-sidebar">
+        <h3>Filter</h3>
+        <div class="filter-group">
+          <label>Category</label>
+          <select id="filterCat" onchange="renderShop()">
+            <option value="">All</option>
+            <option value="vegetables">Vegetables</option>
+            <option value="fruits">Fruits</option>
+            <option value="grains">Grains & Pulses</option>
+            <option value="dairy">Dairy</option>
+            <option value="spices">Spices & Herbs</option>
+            <option value="honey">Honey & More</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Sort By</label>
+          <select id="sortBy" onchange="renderShop()">
+            <option value="popular">Most Popular</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="newest">Newest</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Max Price: ₹<span id="priceLabel">500</span></label>
+          <input type="range" id="priceRange" min="10" max="500" value="500" oninput="updatePrice(this.value)" />
+        </div>
+        <div class="filter-group">
+          <label><input type="checkbox" id="organicOnly" onchange="renderShop()" /> Organic Only</label>
+        </div>
+      </aside>
+      <div class="shop-main">
+        <div class="shop-topbar">
+          <input type="text" class="search-input" placeholder="Search products…" id="searchInput" oninput="renderShop()" />
+          <span id="shopCount" class="shop-count"></span>
+        </div>
+        <div class="products-grid" id="shopGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FARMERS PAGE -->
+  <section class="page" id="page-farmers">
+    <div class="section">
+      <h2 class="section-title" style="text-align:center">Meet Our <em>Farmers</em></h2>
+      <p class="section-sub">Real people, real land, real food.</p>
+      <div class="farmers-grid" id="farmersGrid"></div>
+    </div>
+  </section>
+
+  <!-- SELL PAGE -->
+  <section class="page" id="page-sell">
+    <div class="sell-hero">
+      <h1>Sell on <em>Khet Bazaar</em></h1>
+      <p>Join 2,400+ farmers selling directly to families across India.</p>
+    </div>
+    <div class="sell-steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Register Your Farm</h3>
+        <p>Create your free seller profile with your farm details and location.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>List Your Produce</h3>
+        <p>Add your products with photos, prices, and availability.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Get Orders</h3>
+        <p>Receive orders directly. We handle payments and logistics support.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h3>Get Paid</h3>
+        <p>Instant UPI transfers within 24 hours of delivery confirmation.</p>
+      </div>
+    </div>
+    <div class="sell-form-wrap">
+      <h3>Register as a Farmer</h3>
+      <div class="sell-form">
+        <div class="form-row">
+          <input type="text" placeholder="Your Name" class="form-input" />
+          <input type="text" placeholder="Farm Name" class="form-input" />
+        </div>
+        <div class="form-row">
+          <input type="tel" placeholder="Phone Number" class="form-input" />
+          <input type="text" placeholder="Village / District" class="form-input" />
+        </div>
+        <select class="form-input">
+          <option>Main Product Category</option>
+          <option>Vegetables</option>
+          <option>Fruits</option>
+          <option>Grains & Pulses</option>
+          <option>Dairy</option>
+          <option>Spices & Herbs</option>
+        </select>
+        <textarea placeholder="Tell us about your farm…" class="form-input form-textarea"></textarea>
+        <button class="btn-primary" onclick="submitFarmerForm()">Submit Application →</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h3>Your Cart</h3>
+    <button onclick="closeCart()" class="cart-close">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer" id="cartFooter"></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeLogin()">✕</button>
+    <h2>Welcome Back</h2>
+    <p>Sign in to Khet Bazaar</p>
+    <input type="text" placeholder="Phone number or Email" class="form-input" />
+    <input type="password" placeholder="Password" class="form-input" />
+    <button class="btn-primary" onclick="closeLogin();showToast('Signed in!')">Sign In</button>
+    <p class="modal-foot">Don't have an account? <a href="#" onclick="closeLogin();showPage('sell')">Register as Farmer</a></p>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo-text">🌾 Khet <em>Bazaar</em></span>
+      <p>Farm fresh, always.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Marketplace</h4>
+      <a href="#">Shop</a>
+      <a href="#">Farmers</a>
+      <a href="#">Categories</a>
+    </div>
+    <div class="footer-links">
+      <h4>Sellers</h4>
+      <a href="#">Start Selling</a>
+      <a href="#">Seller Guides</a>
+      <a href="#">Pricing</a>
+    </div>
+    <div class="footer-links">
+      <h4>Support</h4>
+      <a href="#">Help Center</a>
+      <a href="#">Contact</a>
+      <a href="#">Returns</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Khet Bazaar. Built with ❤️ for India's farmers.</div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
